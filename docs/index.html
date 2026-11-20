@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Next-Movie Recommender: Rating-aware Self-Attention</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="style.css?v=12" />
+</head>
+<body>
+  <main>
+    <p id="load-banner" class="load-banner" hidden></p>
+    <header class="top">
+      <div>
+        <p class="kicker">Rating-aware Self-Attention</p>
+        <h1>Next-Movie Recommender</h1>
+      </div>
+      <a class="repo" href="https://github.com/ag-68/Streaming_Session_Recommender">Get git repo</a>
+    </header>
+
+    <section class="motive" aria-label="Why this project">
+      <h2>What are we trying to achieve?</h2>
+      <p>Suppose a viewer liked a sequence of movies, e.g. <span class="mark">Star Wars</span>, <span class="mark">The Matrix</span>, <span class="mark">Fight Club</span>, <span class="mark">Pulp Fiction</span>, <span class="mark">The Godfather</span>. The home screen still has to suggest a next film that fits that path, not a film with no link to it. The input is one person's liked films, oldest first. The output is a short list of films that are not already in that history. This page compares known ways to make that list.</p>
+      <ul class="methods">
+        <li><strong>Popularity.</strong> Ignores the sequence. Suggests films that many people liked. Every viewer sees the same row. It is the bar the other methods have to clear.</li>
+        <li><strong>Item-to-item.</strong> Uses the set of liked films (the sequence above as a bag). Suggests other films liked by people who liked those titles. Order is ignored.</li>
+        <li><strong>Vanilla-SASRec.</strong> The only features are the film ids and their order. No genre, no actors, no plot. It scores every remaining film by how well that film fits after the ordered list. The highest scores are the suggestions. The formulas are under Benchmarks &amp; tests.</li>
+        <li>
+          <strong>Proposed Enhanced-SASRec.</strong> Same backbone as Vanilla, but also uses lower star ratings this viewer already gave (Vanilla only used 4–5★ in the path).
+          <ul class="methods-nested">
+            <li><strong>Veto-SASRec.</strong> A Proposed Enhanced add-on: after the sequence model scores every remaining film, mask out any title this viewer already rated ≤3★ (set those scores to −∞) so they cannot appear in the ranked list. No retrain—only a post-score filter.</li>
+            <li><strong>Polarity-SASRec.</strong> A Proposed Enhanced add-on: learned like/dislike polarity embeddings on each history step; trains to predict the next like; can also apply the Veto mask at serve time.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Page sections">
+      <button type="button" role="tab" id="tab-overview" aria-controls="overview" aria-selected="true">Overview</button>
+      <button type="button" role="tab" id="tab-formulation" aria-controls="formulation" aria-selected="false">Data preparation</button>
+      <button type="button" role="tab" id="tab-benchmarks" aria-controls="benchmarks" aria-selected="false">Benchmarks &amp; tests</button>
+      <button type="button" role="tab" id="tab-results" aria-controls="results" aria-selected="false">Results</button>
+      <button type="button" role="tab" id="tab-try" aria-controls="try" aria-selected="false">Try it (precomputed)</button>
+    </nav>
+
+    <section class="panel" id="overview" role="tabpanel" aria-labelledby="tab-overview">
+      <h2>What problem are we solving?</h2>
+      <p>Suppose we line up one viewer's 4- and 5-star films from oldest to newest, hide the last one, and ask Vanilla-SASRec and the Proposed Enhanced variants (plus the simple baselines) to guess it. The method that puts the hidden film nearer the top of its list is the better guess on this test.</p>
+      <ol class="flow" aria-label="How one test guess works">
+        <li><span class="flow-step">1</span><span class="flow-title">History</span><span class="flow-body">Liked films, oldest → newest</span></li>
+        <li><span class="flow-step">2</span><span class="flow-title">Hide last</span><span class="flow-body">That film is the answer</span></li>
+        <li><span class="flow-step">3</span><span class="flow-title">Rank</span><span class="flow-body">Each method ranks the rest</span></li>
+        <li><span class="flow-step">4</span><span class="flow-title">Score</span><span class="flow-body">Closer to top 10 wins</span></li>
+      </ol>
+
+      <h3>What data do we use?</h3>
+      <p>MovieLens 1M ratings only—not the whole file’s title or genre text, and not actors or plot.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Example</th><th>Used?</th></tr></thead>
+        <tbody>
+          <tr><td>user_id</td><td><code>1</code></td><td>Yes — groups one viewer’s sequence</td></tr>
+          <tr><td>movie_id</td><td><code>260</code> (<span class="mark">Star Wars</span>)</td><td>Yes — opaque film index</td></tr>
+          <tr><td>rating</td><td><code>5</code></td><td>Yes — 4–5★ build the like sequence; ≤3★ retained for Veto / Polarity</td></tr>
+          <tr><td>timestamp</td><td><code>978300760</code></td><td>Yes — order the sequence</td></tr>
+          <tr><td>title / genres</td><td>Star Wars (1977) · Action|Adventure|Fantasy</td><td>Display and optional side-feature runs; titles still display-only for the main path</td></tr>
+        </tbody>
+      </table>
+      <p>One raw row: <code>1::260::5::978300760</code>.</p>
+      <ul class="plain">
+        <li>Raw file: ~1,000,209 ratings from 6,040 viewers.</li>
+        <li>We keep 4–5★ as likes for the sequence, then drop viewers left with fewer than 5 likes. Lower ratings feed Proposed Enhanced variants.</li>
+        <li>What remains for this run: <strong>6,034</strong> viewers, <strong>3,533</strong> films, <strong>575,272</strong> liked ratings.</li>
+      </ul>
+
+      <h3>How do the methods differ?</h3>
+      <table>
+        <thead><tr><th>Method</th><th>Kind</th><th>In one line</th></tr></thead>
+        <tbody>
+          <tr><td>Popularity</td><td>Fixed scoring rule</td><td>Rank by how often a film was liked in training</td></tr>
+          <tr><td>Item-to-item</td><td>Fixed scoring rule</td><td>Rank by shared audience with films in the history (order ignored)</td></tr>
+          <tr><td>Vanilla-SASRec</td><td>Learned temporal model</td><td>Movie embeddings + causal self-attention score the next film from ordered likes</td></tr>
+          <tr><td>Veto-SASRec</td><td>Proposed Enhanced-SASRec</td><td>Post-score mask of ≤3★ titles (Enhanced add-on; no retrain)</td></tr>
+          <tr><td>Polarity-SASRec</td><td>Proposed Enhanced-SASRec</td><td>Like/dislike polarity embeddings on history; predict next like; Veto mask at serve</td></tr>
+        </tbody>
+      </table>
+
+      <h3>How do we read NDCG@10?</h3>
+      <p>NDCG@10 = normalized discounted cumulative gain at 10. Scale is 0 to 1; higher is better.</p>
+      <table>
+        <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Hidden film always in position 1</td></tr>
+          <tr><td>~0.63</td><td>Hidden film in position 2</td></tr>
+          <tr><td>0</td><td>Hidden film outside the top 10</td></tr>
+          <tr><td>~0.17</td><td>Polarity-SASRec here on full catalog — far from perfect, but several times the better simple rule (~0.03). Sampled@100 bridge scores land near ~0.59 (paper-style exam).</td></tr>
+        </tbody>
+      </table>
+
+      <p>The numbers below are that test, averaged over the held-out viewers and read from the saved result files. Higher NDCG@10 means the hidden film sat closer to the top 10. Latency p95 is from the Vanilla forward pass (Veto shares it; Polarity is the same class).</p>
+      <div class="numbers">
+        <article class="number number-best">
+          <span class="badge badge-best">Best</span>
+          <span class="number-label">Polarity-SASRec</span>
+          <strong id="headline-sasrec" class="metric-good">Loading…</strong>
+          <span class="metric-sub">NDCG@10</span>
+          <strong id="headline-p95" class="metric-latency">Loading…</strong>
+          <span class="metric-sub">p95 at 20 films</span>
+        </article>
+        <article class="number">
+          <span class="number-label">Item-to-item</span>
+          <strong id="headline-item" class="metric-good">Loading…</strong>
+          <span class="metric-sub">NDCG@10</span>
+        </article>
+        <article class="number number-worst">
+          <span class="badge badge-worst">Worst</span>
+          <span class="number-label">Popularity</span>
+          <strong id="headline-popularity" class="metric-bad">Loading…</strong>
+          <span class="metric-sub">NDCG@10</span>
+        </article>
+      </div>
+      <p id="headline-note">Loading…</p>
+      <p>The small API returns the Vanilla-SASRec list by default. If the history is empty, or every id is unknown, the API says so and returns the popularity list instead.</p>
+      <p><a href="https://github.com/ag-68/Streaming_Session_Recommender">Repository</a> · the API contract is in the README.</p>
+    </section>
+
+    <section class="panel" id="formulation" role="tabpanel" aria-labelledby="tab-formulation" hidden>
+      <h2>How do raw ratings become sequences?</h2>
+      <p>Suppose the raw file is a long list of star ratings. One person rates <span class="mark">Star Wars</span> 5 stars and, later, rates <span class="mark">The Matrix</span>, <span class="mark">Fight Club</span>, <span class="mark">Pulp Fiction</span>, and <span class="mark">The Godfather</span> highly. Those rows become steps in that person's liked path. A 2-star rating stays out of the like path, but it still feeds Proposed Enhanced variants (Veto mask / Polarity-SASRec embeddings).</p>
+      <ul class="plain">
+        <li><strong>Likes → sequence.</strong> Ratings of 4–5★, oldest first, form the ordered history Vanilla-SASRec sees.</li>
+        <li><strong>≤3★ → Veto ban set.</strong> Those titles are stored per viewer. After scores are computed, their score slots are set to −∞ so they cannot enter the top-k list (post-score mask; no retrain).</li>
+        <li><strong>≤2★ → Polarity-SASRec “−” steps.</strong> Strong dislikes enter the history with a dislike polarity embedding (likes use a like embedding); the model still predicts the next like.</li>
+      </ul>
+      <p id="data-counts">Loading…</p>
+      <h3>How do we name the pieces?</h3>
+      <p>The words in this table are the same idea for every person in the file.</p>
+      <table>
+        <thead><tr><th>Symbol</th><th>Plain words</th></tr></thead>
+        <tbody>
+          <tr><td>viewer</td><td>One person in MovieLens.</td></tr>
+          <tr><td>film</td><td>One movie that someone rated 4 or 5 (or a lower rating kept for Proposed Enhanced).</td></tr>
+          <tr><td>sequence</td><td>That viewer's liked films, oldest first (e.g. the path above).</td></tr>
+          <tr><td>L</td><td>How many recent films the method is allowed to see.</td></tr>
+          <tr><td>k</td><td>The size of the list. The headline list is 10. The API default is 5.</td></tr>
+        </tbody>
+      </table>
+      <h3>How do we hide the answer?</h3>
+      <p>Suppose one viewer liked five films. Call them A, B, C, D, and E, from oldest to newest. Training uses A, B, and C. The practice question, which decides when to stop, is: given A, B, and C, name D. The final exam is asked once: given A, B, C, and D, name E. E is never given as an input.</p>
+      <p>A rating is not proof that the person watched the film to the end. MovieLens only says they gave it stars. If two ratings share a timestamp, the original file order is kept. Film ids are remapped to 1…N. The id 0 is an empty slot, and it is never recommended.</p>
+      <p>How a ranked list is scored (NDCG@10, HR@10, Coverage@10) is defined under Benchmarks &amp; tests.</p>
+    </section>
+
+    <section class="panel" id="benchmarks" role="tabpanel" aria-labelledby="tab-benchmarks" hidden>
+      <h2>What would count as convincing?</h2>
+      <p>Suppose the exam is fair only when every method sees the same history, may not repeat a film already in that history, and is scored by the same rule. The metrics below are that scoring rule. The checks after them are the exam, plus the checks around how the model was trained and how fast it answers.</p>
+
+      <h3>How is one guess scored?</h3>
+      <p>Each method returns a ranked list over every film the viewer has not already liked. Let <span class="math">r</span> be the 1-based rank of the hidden film. Reported scores are averages over held-out viewers. Higher is better for all three metrics; each lives on a closed scale from 0 to 1.</p>
+
+      <p>NDCG@10 (normalized discounted cumulative gain at 10) rewards placing the hidden film nearer the top of the list:</p>
+      <div class="formula" aria-label="NDCG at 10 formula" data-tex="\mathrm{NDCG@10}=\begin{cases} 1/\log_2(r+1) &amp; r \le 10 \\ 0 &amp; r &gt; 10 \end{cases}">NDCG@10 = 1 / log<sub>2</sub>(r+1) if r ≤ 10, else 0</div>
+      <p>If a method puts the hidden film first, that guess scores 1. Position 2 scores 1/log<sub>2</sub>(3), about 0.63. Position 11 scores 0, because only the top 10 count.</p>
+
+      <p>HR@10 (hit rate at 10) asks only whether the hidden film appears somewhere in the top 10. Rank inside that window does not matter:</p>
+      <div class="formula" aria-label="Hit rate at 10 formula" data-tex="\mathrm{HR@10}=\mathbf{1}[r \le 10]">HR@10 = 1[r ≤ 10]</div>
+      <p>The reported HR@10 is the share of viewers for whom that indicator is 1. A method that always places the hidden film at position 10 scores the same HR@10 as one that always places it first; NDCG@10 separates those two cases.</p>
+
+      <p>Coverage@10 (catalog coverage at 10) measures breadth across viewers, not whether one guess was right:</p>
+      <div class="formula" aria-label="Coverage at 10 formula" data-tex="\mathrm{Coverage@10}=\dfrac{|\{\text{films that appear in at least one top-10}\}|}{N}">Coverage@10 = |{films in at least one top-10}| / N</div>
+      <p><span class="math">N</span> is the catalog size. A high coverage means the methods’ top-10 lists together touch many distinct films. A low coverage means the lists collapse onto the same few titles. Coverage does not say the hidden film was ranked well.</p>
+
+      <h3>Paper exam vs our full-catalog exam</h3>
+      <p>SASRec comes from a 2018 paper. That paper counted every star rating as a success, practiced against one random wrong film, and graded the guess among 100 random wrong films (<strong>sampled@100</strong>). This page’s primary exam keeps ratings of 4 and 5 as likes, and grades the hidden film against every remaining film (<strong>full catalog</strong>). Sampled scores look much higher (~0.59) than full-catalog (~0.15) for the same model because the exam is easier. Side-by-side numbers for both exams are under <strong>Results → Protocol bridge</strong>. Paper Table III reports about 0.5905 / 0.8245 on sampled@100; our paper-style run is an approximate recipe in this codebase, not a bit-exact Table III reproduction.</p>
+
+      <h3>Did the sequence model place the hidden film higher?</h3>
+      <p>Suppose we hide the last liked film of every test viewer and ask the methods to rank every remaining film. A higher NDCG@10 means the hidden film landed closer to the top 10.</p>
+      <p>The pass rule is only this: Polarity-SASRec has to beat popularity. Item-to-item similarity is reported whether it wins or loses.</p>
+      <p class="take" id="take-accuracy">Loading…</p>
+
+      <h3>Did practice get better, and when did we stop?</h3>
+      <p>Suppose each full pass through the training films is one epoch. After every epoch we ask the practice question, "given A, B, and C, name D," and we record NDCG@10.</p>
+      <p>If ten epochs in a row bring no improvement, training stops. The saved model is the epoch with the best practice score. That epoch can be earlier than the last one.</p>
+      <p class="take" id="take-training">Loading…</p>
+
+      <h3>What if the method only sees the recent films?</h3>
+      <p>Suppose a viewer liked 80 films and, at scoring time only, we hand over just the last 5. We do not retrain.</p>
+      <p>Films left outside that window count as unseen, so they are allowed back onto the suggestion list. The same cut is repeated for the last 5, 10, 20, 50, and 100 films.</p>
+      <p class="take" id="take-history">Loading…</p>
+
+      <h3>Is the guess harder for some viewers than for others?</h3>
+      <p>Suppose one viewer has 8 liked films and another has 120. Separately, suppose the hidden film is one that few people liked, or one that almost everyone liked.</p>
+      <p>The same test scores are split into those groups. The question is whether the sequence model’s lead shows up in every group, or only in some of them. The numbers for each bucket are under Results.</p>
+
+      <h3>Does the API answer quickly on this catalog?</h3>
+      <p>Suppose a request sends 20 film ids and asks for suggestions. We time that request on this computer, through the real HTTP service.</p>
+      <p>The first 50 requests are warm-up and are thrown away. Then 1,000 requests are timed for histories of 5, 20, 50, and 100 films. p95 means 95% of those requests finished in that time or less. The dashed line on the chart is 50 milliseconds. A time under that line is a budget for a few thousand films on one machine. It is not a claim about a catalog of millions of titles. Vanilla and Veto share the same forward; Polarity is the same latency class.</p>
+      <p class="take" id="take-latency">Loading…</p>
+
+      <h3>What does each method actually do?</h3>
+      <p>Suppose the methods are given the same history <span class="math">H = (i<sub>1</sub>, …, i<sub>T</sub>)</span>, oldest first, and the same ban: a film already in <span class="math">H</span> may not be recommended. Index <span class="math">0</span> is padding. Catalog ids run from <span class="math">1</span> to <span class="math">N</span>. Ties break toward the smaller id.</p>
+
+      <h3>Popularity</h3>
+      <p>For each film <span class="math">j</span>, count how many training sequences contain <span class="math">j</span>:</p>
+      <div class="formula" data-tex="c_j = \#\{u:\, j \in H_u^{\mathrm{train}}\},\qquad \mathrm{score}(j)=c_j">c<sub>j</sub> = #{u : j ∈ H<sub>u</sub><sup>train</sup>}, &nbsp; score(j) = c<sub>j</sub></div>
+      <p>The score for every viewer is the same vector <span class="math">c</span>. History is used only to mask films already seen. Empty and unknown histories also use <span class="math">c</span>.</p>
+
+      <h3>Item-to-item similarity</h3>
+      <p>Build a binary user–film matrix on the training sequences. Entry <span class="math">(u, j)</span> is <span class="math">1</span> if viewer <span class="math">u</span> liked film <span class="math">j</span>, else <span class="math">0</span>. Let <span class="math">v<sub>j</sub></span> be column <span class="math">j</span>. Cosine similarity between films <span class="math">a</span> and <span class="math">b</span> is</p>
+      <div class="formula" data-tex="\mathrm{sim}(a,b)=\dfrac{v_a^\top v_b}{\|v_a\|_2\|v_b\|_2}">sim(a, b) = (v<sub>a</sub>ᵀ v<sub>b</sub>) / (‖v<sub>a</sub>‖₂ ‖v<sub>b</sub>‖₂)</div>
+      <p>For each film <span class="math">a</span>, keep the <span class="math">K = 50</span> films with the largest <span class="math">sim(a, ·)</span>, and drop <span class="math">a</span> itself. Given history <span class="math">H</span>, the score of a candidate <span class="math">j</span> is the sum of those stored similarities from every film already in <span class="math">H</span>:</p>
+      <div class="formula" data-tex="\mathrm{score}(j\mid H)=\sum_{a\in H}\mathrm{sim}(a,j)\cdot \mathbf{1}[j\in\mathrm{TopK}(a)]">score(j | H) = Σ<sub>a ∈ H</sub> sim(a, j) · 1[j ∈ TopK(a)]</div>
+      <p>Order inside <span class="math">H</span> is ignored. The sequence Star Wars → … → The Godfather gives the same score vector if the order is shuffled. If <span class="math">H</span> is empty or every id is unknown, the method falls back to popularity.</p>
+
+      <h3>Vanilla-SASRec</h3>
+      <p>The input is only the ordered film ids. No genre, no actors, no plot. The sequence is left-padded to length <span class="math">L = 100</span>, so empty slots sit on the left and the most recent films sit on the right.</p>
+      <ol class="arch-flow" aria-label="Vanilla-SASRec architecture">
+        <li><span class="flow-step">1</span><span class="flow-title">Film ids</span><span class="flow-body">Ordered history, left-padded</span></li>
+        <li><span class="flow-step">2</span><span class="flow-title">Embeddings</span><span class="flow-body">Item emb + position emb</span></li>
+        <li><span class="flow-step">3</span><span class="flow-title">Blocks</span><span class="flow-body">2× causal self-attention + FFN</span></li>
+        <li><span class="flow-step">4</span><span class="flow-title">h<sub>T</sub></span><span class="flow-body">Last hidden state</span></li>
+        <li><span class="flow-step">5</span><span class="flow-title">Scores</span><span class="flow-body">Dot with item matrix E</span></li>
+      </ol>
+      <p>Each film <span class="math">j</span> has a learned vector <span class="math">E<sub>j</sub> ∈ ℝ<sup>d</sup></span> with <span class="math">d = 64</span>. Position <span class="math">t</span> has a learned vector <span class="math">P<sub>t</sub> ∈ ℝ<sup>d</sup></span>. Padding uses <span class="math">E<sub>0</sub> = 0</span>. The representation at position <span class="math">t</span> starts as</p>
+      <div class="formula" data-tex="x_t = \sqrt{d}\, E_{i_t} + P_t">x<sub>t</sub> = √d · E<sub>i<sub>t</sub></sub> + P<sub>t</sub></div>
+      <p>That sequence goes through <span class="math">B = 2</span> blocks. Each block is causal self-attention with one head, then a feed-forward layer, each with a residual connection and layer norm. Causal means position <span class="math">t</span> may use positions <span class="math">1, …, t</span> only. It may not look at a later film. Dropout is <span class="math">0.2</span> during training and <span class="math">0</span> when serving.</p>
+      <p>After the blocks, the last position holds a vector <span class="math">h<sub>T</sub> ∈ ℝ<sup>d</sup></span>. The score of every catalog film is the dot product with the same item matrix:</p>
+      <div class="formula" data-tex="\mathrm{score}(j\mid H)= h_T^\top E_j">score(j | H) = h<sub>T</sub>ᵀ E<sub>j</sub></div>
+      <p>Suppose the exact path Star Wars → The Matrix → Fight Club → Pulp Fiction → The Godfather never appears as an adjacent chain in the training file. The model still has a vector for each film. Attention mixes those vectors with their positions. Other training sequences move <span class="math">E<sub>j</sub></span> and the attention weights so that, after many different ordered lists, films that often follow similar lists get a higher score. The method does not look up the title string.</p>
+      <p>Training asks the same kind of question as the test. At each non-pad position <span class="math">t</span>, the target is the next film <span class="math">i<sub>t+1</sub></span>. The loss is full-catalog cross-entropy:</p>
+      <div class="formula" data-tex="\mathcal{L}= -\sum_{t:\, i_{t+1}\neq 0}\log \dfrac{\exp(h_t^\top E_{i_{t+1}})}{\sum_{j=0}^{N}\exp(h_t^\top E_j)}">ℒ = − Σ<sub>t : i<sub>t+1</sub> ≠ 0</sub> log[ exp(h<sub>t</sub>ᵀ E<sub>i<sub>t+1</sub></sub>) / Σ<sub>j=0…N</sub> exp(h<sub>t</sub>ᵀ E<sub>j</sub>) ]</div>
+      <p>Pad positions with target <span class="math">0</span> are ignored. The optimizer is Adam with learning rate <span class="math">10<sup>−3</sup></span>. Each epoch draws a random window of length at most <span class="math">L+1</span> from each training sequence. After every epoch, validation NDCG@10 is measured. Training stops after <span class="math">10</span> epochs with no improvement, and the checkpoint with the best validation NDCG@10 is kept. The seed is <span class="math">42</span>.</p>
+      <p>The settings below are the ones used for the Vanilla run behind the numbers on this page.</p>
+      <table id="settings-table">
+        <thead><tr><th>Setting</th><th>Value used</th></tr></thead>
+        <tbody><tr><td colspan="2">Loading…</td></tr></tbody>
+      </table>
+      <p>Libraries: PyTorch, NumPy, pandas, FastAPI, pytest, matplotlib. The page uses Plotly 2.35.2 and KaTeX 0.16.22.</p>
+
+      <h3>Proposed Enhanced: Veto-SASRec</h3>
+      <p>Veto is a Proposed Enhanced add-on on the sequence scores: after the model scores every catalog film, any title this viewer already rated ≤3★ has its score set to −∞ (masked), so it cannot enter the top-k list. Post-score filter only—no retrain. It can sit on Vanilla scores or on Polarity-SASRec scores.</p>
+
+      <h3>Proposed Enhanced: Polarity-SASRec</h3>
+      <p>Polarity-SASRec keeps the same causal blocks and full-catalog scoring as Vanilla, but the history is a signed timeline: each step is a film id plus a polarity (like or dislike). Two learned polarity embeddings are added to the item embedding before attention:</p>
+      <div class="formula" data-tex="x_t = \sqrt{d}\, E_{i_t} + Q_{p_t} + P_t">x<sub>t</sub> = √d · E<sub>i<sub>t</sub></sub> + Q<sub>p<sub>t</sub></sub> + P<sub>t</sub></div>
+      <p>Here <span class="math">p<sub>t</sub> ∈ {0,1}</span> is dislike vs like, and <span class="math">Q<sub>0</sub>, Q<sub>1</sub> ∈ ℝ<sup>d</sup></span> are the learned polarity vectors. Strong dislikes (≤2★) enter as <span class="math">p<sub>t</sub>=0</span>; likes (4–5★) as <span class="math">p<sub>t</sub>=1</span>. Soft 3★ ratings are not written as signed steps; they still feed the Veto ban set.</p>
+      <ol class="arch-flow" aria-label="Polarity-SASRec architecture">
+        <li><span class="flow-step">1</span><span class="flow-title">Signed steps</span><span class="flow-body">Film id + like/dislike</span></li>
+        <li><span class="flow-step">2</span><span class="flow-title">Embeddings</span><span class="flow-body">Item + polarity Q + position</span></li>
+        <li><span class="flow-step">3</span><span class="flow-title">Blocks</span><span class="flow-body">Same 2× causal attention</span></li>
+        <li><span class="flow-step">4</span><span class="flow-title">h<sub>T</sub></span><span class="flow-body">Last hidden state</span></li>
+        <li><span class="flow-step">5</span><span class="flow-title">Scores</span><span class="flow-body">Dot with E; optional Veto mask</span></li>
+      </ol>
+      <p>Training supervises <strong>next like</strong> only (dislike steps are context, not prediction targets). The loss is still full-catalog cross-entropy on those like targets. At serve time the model can apply the same Veto post-score mask so ≤3★ titles stay out of the list.</p>
+
+      <h3>Side features (optional)</h3>
+      <p>An optional side-feature fusion (genres ⊕ decade ⊕ log-popularity into the item embedding) was measured as a small NDCG lift over id-only Vanilla; it is not the Proposed Enhanced path on this page.</p>
+    </section>
+
+    <section class="panel" id="results" role="tabpanel" aria-labelledby="tab-results" hidden>
+      <h2>What did that exam show?</h2>
+      <p>Each chart is the same full-catalog leave-one-out test on the likes-only split, drawn from the saved files. A taller bar means the hidden film was placed closer to the top. None of these charts measure whether a person would have pressed play.</p>
+
+      <h3>Our variants (full-catalog)</h3>
+      <p>Popularity and item-to-item as baselines; Vanilla-SASRec vs Proposed Enhanced (Veto, Polarity) on the same exam.</p>
+      <div id="chart-metrics" class="chart" aria-label="Bar chart of test NDCG, hit rate, and coverage"></div>
+      <p id="chart-metrics-note">Loading…</p>
+      <div id="variant-table"></div>
+      <div id="accuracy-cost-table"></div>
+
+      <h3>Protocol bridge</h3>
+      <p>Full-catalog vs sampled@100 for the same flavors (and paper-style). Higher sampled numbers reflect an easier exam, not a different model family. Paper Table III reference (~0.5905 / 0.8245 sampled@100) is the published target; our paper-style row is an approximate recipe in this codebase.</p>
+      <div id="bridge-table-results"></div>
+      <p id="bridge-note-results">Loading…</p>
+
+      <div id="chart-training" class="chart" aria-label="Training loss and validation NDCG by epoch"></div>
+      <p id="chart-training-note">Loading…</p>
+      <div id="chart-history" class="chart" aria-label="NDCG when the history is shortened"></div>
+      <p id="chart-history-note">Loading…</p>
+      <div id="chart-latency" class="chart" aria-label="Response time by history length"></div>
+      <p id="chart-latency-note">Loading…</p>
+      <h3>Harder / easier slices</h3>
+      <p>Same full-catalog final exam, split by history length and by how widely liked the hidden film was. Formal metric definitions are under Benchmarks &amp; tests. Columns compare <strong>Polarity-SASRec</strong> (with the Veto ≤3★ mask) to the simple baselines. In each table, <strong>n</strong> is the number of test viewers in that bucket (the size of the slice).</p>
+      <div id="slice-table"></div>
+      <h3>Key takeaways</h3>
+      <div class="take" id="key-takeaways">Loading…</div>
+    </section>
+
+    <section class="panel" id="try" role="tabpanel" aria-labelledby="tab-try" hidden>
+      <h2>What would the lists look like for one person?</h2>
+      <p>Suppose we pick one real viewer from the final exam. The chips are the last films they had already liked. The line under the chips is the film we hid: the one they rated later, which none of the methods were allowed to see.</p>
+      <p>Each row is the list that method would have returned. Sequence lists are from <strong>Polarity-SASRec</strong> (with the Veto ≤3★ mask), saved ahead of time on the same full-catalog exam. If the hidden film is inside a top 10, the row says so and the matching chip is outlined. This page cannot run the Python model, so a copy hosted on GitHub Pages can only show the saved example.</p>
+      <div class="viewer-picker">
+        <label for="viewer">Choose a viewer</label>
+        <select id="viewer" aria-label="Demo viewer"></select>
+      </div>
+      <div id="viewer-body" class="viewer-body">Loading…</div>
+      <h3>What would you send the real service?</h3>
+      <p>Suppose the service is running on your own computer. The command below sends this viewer's history as raw MovieLens ids and asks for 5 films. The live API default checkpoint may still be the id-only Vanilla serve path; the chips above are the precomputed <strong>Polarity-SASRec</strong> lists. An empty history, or a history made only of unknown ids, comes back as the popularity list and says that it did.</p>
+      <pre id="curl">Loading…</pre>
+    </section>
+
+    <details>
+      <summary>Glossary</summary>
+      <div id="glossary">Loading…</div>
+    </details>
+  </main>
+  <script src="app.js?v=12"></script>
+</body>
+</html>

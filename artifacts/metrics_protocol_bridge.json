@@ -1,0 +1,61 @@
+{
+  "note": "Protocol bridge. No docs/web updates. ours_under_paper_sampled = our three flavors on paper exam; paper_style_under_ours_full_catalog = paper-like train on our exam.",
+  "ours_under_paper_sampled": {
+    "experiment": "ours_under_paper_sampled",
+    "note": "Existing Id / Veto / Signed Trail checkpoints scored with paper sampled ranking (true + 100 random). Same leave-one-out likes-only splits as our full-catalog runs.",
+    "n_negatives": 100,
+    "seed": 42,
+    "n_users": 6034,
+    "n_items": 3533,
+    "models": {
+      "id_sasrec": {
+        "ndcg@10": 0.5879388111531283,
+        "hr@10": 0.8120649651972158,
+        "n_negatives": 100,
+        "protocol": "sampled",
+        "best_epoch": 98
+      },
+      "veto": {
+        "ndcg@10": 0.6076455654684795,
+        "hr@10": 0.825157441166722,
+        "n_negatives": 100,
+        "protocol": "sampled",
+        "best_epoch": 98,
+        "ban": "soft_dislike_leq_3"
+      },
+      "signed_trail": {
+        "ndcg@10": 0.6171231064724899,
+        "hr@10": 0.8253231687106397,
+        "n_negatives": 100,
+        "protocol": "sampled",
+        "best_epoch": 99,
+        "ban": "soft_dislike_leq_3"
+      }
+    }
+  },
+  "paper_style_under_ours_full_catalog": {
+    "experiment": "paper_style_under_ours_full_catalog",
+    "note": "Approximate paper recipe in this codebase: all 1\u20135\u2605 sequence events, 1-neg BCE training. Primary eval is our full-catalog Hit/NDCG@10; sampled@100 also reported for sanity. Not an official Table III reproduction.",
+    "data_stats": {
+      "protocol": "paper_style_all_ratings",
+      "min_interactions": 5,
+      "users": 6040,
+      "items": 3706,
+      "raw_ratings_used": 1000209
+    },
+    "best_epoch": 99,
+    "best_val_ndcg@10": 0.12991592223550466,
+    "full_catalog": {
+      "ndcg@10": 0.12430236243662925,
+      "hr@10": 0.22880794701986754,
+      "coverage@10": 0.5841878035617917,
+      "protocol": "full_catalog"
+    },
+    "sampled_100": {
+      "ndcg@10": 0.5854032807205396,
+      "hr@10": 0.8104304635761589,
+      "n_negatives": 100,
+      "protocol": "sampled"
+    }
+  }
+}

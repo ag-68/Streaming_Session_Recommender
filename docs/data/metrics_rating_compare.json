@@ -1,0 +1,32 @@
+{
+  "runs": [
+    {
+      "run": "id_only_baseline",
+      "ndcg@10": 0.14506998873021085,
+      "hr@10": 0.25770633079217764,
+      "coverage@10": 0.6014718369657515,
+      "notes": "movie ids only; no rating ban"
+    },
+    {
+      "run": "way1_ban_only",
+      "ndcg@10": 0.16385650074049318,
+      "hr@10": 0.28322837255551875,
+      "coverage@10": 0.6365694876875176,
+      "notes": "id-only checkpoint; soft dislike ban at eval"
+    },
+    {
+      "run": "way2_plus_ban",
+      "ndcg@10": 0.15974158756238932,
+      "hr@10": 0.27709645343056016,
+      "coverage@10": 0.6040192470987829,
+      "notes": "dislike loss retrain; soft ban at eval"
+    },
+    {
+      "run": "way3_plus_ban",
+      "ndcg@10": 0.1710999539324368,
+      "hr@10": 0.29698375870069604,
+      "coverage@10": 0.6334559864138126,
+      "notes": "signed history retrain; soft ban at eval"
+    }
+  ]
+}

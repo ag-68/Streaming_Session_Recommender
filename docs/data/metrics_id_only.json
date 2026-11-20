@@ -1,0 +1,24 @@
+{
+  "split": "test",
+  "k": 10,
+  "pass_rule": "SASRec NDCG@10 is higher than popularity",
+  "pass_rule_met": true,
+  "models": {
+    "popularity": {
+      "ndcg@10": 0.01914015380606445,
+      "hr@10": 0.04060324825986079,
+      "coverage@10": 0.032550240588734784
+    },
+    "item_knn": {
+      "ndcg@10": 0.030614244539895696,
+      "hr@10": 0.060656281073914485,
+      "coverage@10": 0.11378431927540333
+    },
+    "sasrec": {
+      "ndcg@10": 0.14506998873021085,
+      "hr@10": 0.25770633079217764,
+      "coverage@10": 0.6014718369657515
+    }
+  },
+  "best_epoch": 98
+}

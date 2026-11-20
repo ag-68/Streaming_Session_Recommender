@@ -1,0 +1,9 @@
+torch
+numpy
+pandas
+fastapi
+uvicorn
+httpx
+pytest
+matplotlib
+ruff

@@ -1,0 +1,54 @@
+{
+  "protocol": "full_catalog_likes_only",
+  "k": 10,
+  "pass_rule": "Polarity-SASRec NDCG@10 is higher than popularity",
+  "pass_rule_met": true,
+  "best": "signed_trail",
+  "latency_note": "p95@20 from the Vanilla-SASRec HTTP benchmark; Veto uses the same forward pass. Polarity-SASRec is the same latency class (not separately timed on this page).",
+  "p95_ms_at_20": 12.83,
+  "models": {
+    "popularity": {
+      "label": "Popularity",
+      "ndcg@10": 0.0191,
+      "hr@10": 0.0406,
+      "coverage@10": 0.0326,
+      "behavior": "Same ranking for every viewer; history only masks seen films"
+    },
+    "item_knn": {
+      "label": "Item-to-item",
+      "ndcg@10": 0.0306,
+      "hr@10": 0.0607,
+      "coverage@10": 0.1138,
+      "behavior": "Shared audience with liked films; order ignored"
+    },
+    "vanilla": {
+      "label": "Vanilla-SASRec",
+      "ndcg@10": 0.1451,
+      "hr@10": 0.2577,
+      "coverage@10": 0.6015,
+      "behavior": "Ordered like ids only; full-catalog next-item scores",
+      "p95_ms_at_20": 12.83
+    },
+    "veto": {
+      "label": "Veto-SASRec",
+      "ndcg@10": 0.1639,
+      "hr@10": 0.2832,
+      "coverage@10": 0.6366,
+      "behavior": "Proposed Enhanced add-on: post-score mask of ≤3★ titles (score → −∞); no retrain",
+      "p95_ms_at_20": 12.83,
+      "umbrella": "Proposed Enhanced-SASRec"
+    },
+    "signed_trail": {
+      "label": "Polarity-SASRec",
+      "ndcg@10": 0.1711,
+      "hr@10": 0.2970,
+      "coverage@10": 0.6335,
+      "behavior": "Proposed Enhanced: like/dislike polarity embeddings; next-like; optional Veto mask at serve",
+      "p95_ms_at_20": 12.83,
+      "p95_note": "same class as Vanilla (not separately timed)",
+      "umbrella": "Proposed Enhanced-SASRec"
+    }
+  },
+  "variants": ["vanilla", "veto", "signed_trail"],
+  "chart_order": ["popularity", "item_knn", "vanilla", "veto", "signed_trail"]
+}

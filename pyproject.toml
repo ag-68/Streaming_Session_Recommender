@@ -1,0 +1,18 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+  "latency: in-process response-time budget",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/sessrec/write_readme.py" = ["E501"]
+"src/sessrec/glossary.py" = ["E501"]
+"scripts/benchmark_latency.py" = ["E501"]

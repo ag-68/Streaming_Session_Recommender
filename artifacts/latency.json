@@ -1,0 +1,38 @@
+{
+  "hardware": {
+    "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cores": 8,
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.1",
+    "torch": "2.15.0+cpu"
+  },
+  "port": 8001,
+  "warmup": 50,
+  "requests_per_length": 1000,
+  "gate_ms": 50,
+  "gate_met": true,
+  "torch_threads": 1,
+  "by_history_length": {
+    "5": {
+      "p50": 10.22749999538064,
+      "p95": 13.103600000613367,
+      "p99": 14.582811995060181
+    },
+    "20": {
+      "p50": 9.197299994411878,
+      "p95": 12.829840013000648,
+      "p99": 13.965347987250425
+    },
+    "50": {
+      "p50": 10.259749993565492,
+      "p95": 13.845895009581,
+      "p99": 14.881568984128535
+    },
+    "100": {
+      "p50": 9.711849997984245,
+      "p95": 13.2108100107871,
+      "p99": 14.205118000973014
+    }
+  },
+  "note": "p95 means 95% of requests finished in this time or less. This is localhost on a catalog of a few thousand films."
+}

@@ -1,0 +1,1350 @@
+{
+  "note": "Precomputed lists from Polarity-SASRec with Veto soft ban on the full-catalog leave-one-out exam.",
+  "sequence_model": "Polarity-SASRec",
+  "users": [
+    {
+      "user_index": 518,
+      "history_titles": [
+        "American Pie (1999)",
+        "Analyze This (1999)",
+        "Return to Me (2000)",
+        "Where the Heart Is (2000)",
+        "Babe (1995)",
+        "Lady and the Tramp (1955)",
+        "Breakfast Club, The (1985)",
+        "Toy Story (1995)"
+      ],
+      "history_raw_ids": [
+        2706,
+        2539,
+        3512,
+        3565,
+        34,
+        2080,
+        1968,
+        1
+      ],
+      "heldout_title": "Toy Story 2 (1999)",
+      "heldout_raw_id": 3114,
+      "hit_at_10": {
+        "sasrec": true,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 2355,
+          "title": "Bug's Life, A (1998)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1784,
+          "title": "As Good As It Gets (1997)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1265,
+          "title": "Groundhog Day (1993)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3114,
+          "title": "Toy Story 2 (1999)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1270,
+          "title": "Back to the Future (1985)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1270,
+          "title": "Back to the Future (1985)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1265,
+          "title": "Groundhog Day (1993)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 318,
+          "title": "Shawshank Redemption, The (1994)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        }
+      ]
+    },
+    {
+      "user_index": 537,
+      "history_titles": [
+        "Mark of Zorro, The (1940)",
+        "Around the World in 80 Days (1956)",
+        "Deliverance (1972)",
+        "Gulliver's Travels (1939)",
+        "20,000 Leagues Under the Sea (1954)",
+        "Batman (1989)",
+        "Star Trek: The Wrath of Khan (1982)",
+        "Highlander (1986)"
+      ],
+      "history_raw_ids": [
+        941,
+        952,
+        2871,
+        2899,
+        1019,
+        592,
+        1374,
+        1275
+      ],
+      "heldout_title": "Men in Black (1997)",
+      "heldout_raw_id": 1580,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 2470,
+          "title": "Crocodile Dundee (1986)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 2406,
+          "title": "Romancing the Stone (1984)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 2115,
+          "title": "Indiana Jones and the Temple of Doom (1984)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3699,
+          "title": "Starman (1984)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2640,
+          "title": "Superman (1978)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1197,
+          "title": "Princess Bride, The (1987)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 457,
+          "title": "Fugitive, The (1993)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1036,
+          "title": "Die Hard (1988)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2571,
+          "title": "Matrix, The (1999)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2571,
+          "title": "Matrix, The (1999)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2762,
+          "title": "Sixth Sense, The (1999)"
+        }
+      ]
+    },
+    {
+      "user_index": 568,
+      "history_titles": [
+        "Tank Girl (1995)",
+        "Jungle2Jungle (a.k.a. Jungle 2 Jungle) (1997)",
+        "McHale's Navy (1997)",
+        "Problem Child 2 (1991)",
+        "Mafia! (1998)",
+        "Home Alone 3 (1997)",
+        "Erin Brockovich (2000)",
+        "Shanghai Noon (2000)"
+      ],
+      "history_raw_ids": [
+        327,
+        1474,
+        1445,
+        2799,
+        2027,
+        1707,
+        3408,
+        3624
+      ],
+      "heldout_title": "Titan A.E. (2000)",
+      "heldout_raw_id": 3745,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 3753,
+          "title": "Patriot, The (2000)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 3578,
+          "title": "Gladiator (2000)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 3555,
+          "title": "U-571 (2000)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3755,
+          "title": "Perfect Storm, The (2000)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3510,
+          "title": "Frequency (2000)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1,
+          "title": "Toy Story (1995)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 597,
+          "title": "Pretty Woman (1990)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1265,
+          "title": "Groundhog Day (1993)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1569,
+          "title": "My Best Friend's Wedding (1997)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3255,
+          "title": "League of Their Own, A (1992)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        }
+      ]
+    },
+    {
+      "user_index": 1215,
+      "history_titles": [
+        "Falling Down (1993)",
+        "Chinatown (1974)",
+        "Animal House (1978)",
+        "Monty Python and the Holy Grail (1974)",
+        "Klute (1971)",
+        "Sleeper (1973)",
+        "Rescuers, The (1977)",
+        "Charlotte's Web (1973)"
+      ],
+      "history_raw_ids": [
+        3020,
+        1252,
+        3421,
+        1136,
+        1964,
+        1077,
+        2090,
+        2137
+      ],
+      "heldout_title": "Kentucky Fried Movie, The (1977)",
+      "heldout_raw_id": 3760,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 616,
+          "title": "Aristocats, The (1970)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 2138,
+          "title": "Watership Down (1978)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 2116,
+          "title": "Lord of the Rings, The (1978)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1345,
+          "title": "Carrie (1976)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3363,
+          "title": "American Graffiti (1973)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1294,
+          "title": "M*A*S*H (1970)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1234,
+          "title": "Sting, The (1973)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 923,
+          "title": "Citizen Kane (1941)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1210,
+          "title": "Star Wars: Episode VI - Return of the Jedi (1983)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2762,
+          "title": "Sixth Sense, The (1999)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        }
+      ]
+    },
+    {
+      "user_index": 2609,
+      "history_titles": [
+        "Jurassic Park (1993)",
+        "Frequency (2000)",
+        "From Russia with Love (1963)",
+        "Sound of Music, The (1965)",
+        "Men in Black (1997)",
+        "Voyage to the Bottom of the Sea (1961)",
+        "Santa Claus: The Movie (1985)",
+        "Airplane II: The Sequel (1982)"
+      ],
+      "history_raw_ids": [
+        480,
+        3510,
+        2948,
+        1035,
+        1580,
+        3926,
+        2399,
+        2792
+      ],
+      "heldout_title": "Mission: Impossible 2 (2000)",
+      "heldout_raw_id": 3623,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 1544,
+          "title": "Lost World: Jurassic Park, The (1997)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 3930,
+          "title": "Creature From the Black Lagoon, The (1954)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 804,
+          "title": "She's the One (1996)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3173,
+          "title": "Any Given Sunday (1999)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 70,
+          "title": "From Dusk Till Dawn (1996)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 457,
+          "title": "Fugitive, The (1993)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1036,
+          "title": "Die Hard (1988)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        }
+      ]
+    },
+    {
+      "user_index": 2644,
+      "history_titles": [
+        "Rob Roy (1995)",
+        "L.A. Story (1991)",
+        "Dave (1993)",
+        "Legends of the Fall (1994)",
+        "Toy Story (1995)",
+        "Grosse Pointe Blank (1997)",
+        "Sabrina (1995)",
+        "Mrs. Doubtfire (1993)"
+      ],
+      "history_raw_ids": [
+        151,
+        2108,
+        440,
+        266,
+        1,
+        1500,
+        7,
+        500
+      ],
+      "heldout_title": "Varsity Blues (1999)",
+      "heldout_raw_id": 2447,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 586,
+          "title": "Home Alone (1990)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1711,
+          "title": "Midnight in the Garden of Good and Evil (1997)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 344,
+          "title": "Ace Ventura: Pet Detective (1994)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1020,
+          "title": "Cool Runnings (1993)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1614,
+          "title": "In & Out (1997)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1036,
+          "title": "Die Hard (1988)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 2918,
+          "title": "Ferris Bueller's Day Off (1986)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2000,
+          "title": "Lethal Weapon (1987)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 858,
+          "title": "Godfather, The (1972)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1214,
+          "title": "Alien (1979)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1193,
+          "title": "One Flew Over the Cuckoo's Nest (1975)"
+        }
+      ]
+    },
+    {
+      "user_index": 3176,
+      "history_titles": [
+        "My Cousin Vinny (1992)",
+        "White Men Can't Jump (1992)",
+        "Big Daddy (1999)",
+        "Big (1988)",
+        "Eat Drink Man Woman (1994)",
+        "French Kiss (1995)",
+        "Tampopo (1986)",
+        "Bring It On (2000)"
+      ],
+      "history_raw_ids": [
+        2302,
+        3263,
+        2694,
+        2797,
+        232,
+        236,
+        3819,
+        3882
+      ],
+      "heldout_title": "Chicken Run (2000)",
+      "heldout_raw_id": 3751,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 3948,
+          "title": "Meet the Parents (2000)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 3897,
+          "title": "Almost Famous (2000)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 3317,
+          "title": "Wonder Boys (2000)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3911,
+          "title": "Best in Show (2000)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3617,
+          "title": "Road Trip (2000)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 296,
+          "title": "Pulp Fiction (1994)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2571,
+          "title": "Matrix, The (1999)"
+        }
+      ]
+    },
+    {
+      "user_index": 3943,
+      "history_titles": [
+        "What's Eating Gilbert Grape (1993)",
+        "Who Framed Roger Rabbit? (1988)",
+        "Who's Afraid of Virginia Woolf? (1966)",
+        "Winnie the Pooh and the Blustery Day (1968)",
+        "Wizard of Oz, The (1939)",
+        "Working Girl (1988)",
+        "Yellow Submarine (1968)",
+        "Year of Living Dangerously (1982)"
+      ],
+      "history_raw_ids": [
+        337,
+        2987,
+        2132,
+        1023,
+        919,
+        2245,
+        2857,
+        2919
+      ],
+      "heldout_title": "You've Got Mail (1998)",
+      "heldout_raw_id": 2424,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 1674,
+          "title": "Witness (1985)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 594,
+          "title": "Snow White and the Seven Dwarfs (1937)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1296,
+          "title": "Room with a View, A (1986)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1302,
+          "title": "Field of Dreams (1989)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 17,
+          "title": "Sense and Sensibility (1995)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 318,
+          "title": "Shawshank Redemption, The (1994)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1197,
+          "title": "Princess Bride, The (1987)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1240,
+          "title": "Terminator, The (1984)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1200,
+          "title": "Aliens (1986)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 457,
+          "title": "Fugitive, The (1993)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 589,
+          "title": "Terminator 2: Judgment Day (1991)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 318,
+          "title": "Shawshank Redemption, The (1994)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1197,
+          "title": "Princess Bride, The (1987)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1617,
+          "title": "L.A. Confidential (1997)"
+        }
+      ]
+    },
+    {
+      "user_index": 4205,
+      "history_titles": [
+        "2001: A Space Odyssey (1968)",
+        "8 1/2 (1963)",
+        "Spartacus (1960)",
+        "Romeo and Juliet (1968)",
+        "Lolita (1962)",
+        "Guess Who's Coming to Dinner (1967)",
+        "Easy Rider (1969)",
+        "Parent Trap, The (1961)"
+      ],
+      "history_raw_ids": [
+        924,
+        1251,
+        2728,
+        3668,
+        2729,
+        3451,
+        3168,
+        1013
+      ],
+      "heldout_title": "Mission: Impossible 2 (2000)",
+      "heldout_raw_id": 3623,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 1252,
+          "title": "Chinatown (1974)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 3546,
+          "title": "What Ever Happened to Baby Jane? (1962)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 3788,
+          "title": "Blowup (1966)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 3038,
+          "title": "Face in the Crowd, A (1957)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3792,
+          "title": "Duel in the Sun (1946)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1252,
+          "title": "Chinatown (1974)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 919,
+          "title": "Wizard of Oz, The (1939)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        }
+      ]
+    },
+    {
+      "user_index": 4662,
+      "history_titles": [
+        "Galaxy Quest (1999)",
+        "Jurassic Park (1993)",
+        "Total Recall (1990)",
+        "Star Wars: Episode VI - Return of the Jedi (1983)",
+        "Star Trek: First Contact (1996)",
+        "Abyss, The (1989)",
+        "Men in Black (1997)",
+        "Thing, The (1982)"
+      ],
+      "history_raw_ids": [
+        3175,
+        480,
+        2916,
+        1210,
+        1356,
+        1127,
+        1580,
+        2288
+      ],
+      "heldout_title": "Back to the Future Part II (1989)",
+      "heldout_raw_id": 2011,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 3699,
+          "title": "Starman (1984)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1374,
+          "title": "Star Trek: The Wrath of Khan (1982)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1584,
+          "title": "Contact (1997)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2640,
+          "title": "Superman (1978)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1129,
+          "title": "Escape from New York (1981)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1374,
+          "title": "Star Trek: The Wrath of Khan (1982)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1097,
+          "title": "E.T. the Extra-Terrestrial (1982)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1036,
+          "title": "Die Hard (1988)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 1291,
+          "title": "Indiana Jones and the Last Crusade (1989)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2762,
+          "title": "Sixth Sense, The (1999)"
+        }
+      ]
+    },
+    {
+      "user_index": 5175,
+      "history_titles": [
+        "Star Wars: Episode V - The Empire Strikes Back (1980)",
+        "Anna and the King (1999)",
+        "Civil Action, A (1998)",
+        "Bug's Life, A (1998)",
+        "Chicken Run (2000)",
+        "Double Jeopardy (1999)",
+        "Gladiator (2000)",
+        "Patriot, The (2000)"
+      ],
+      "history_raw_ids": [
+        1196,
+        3155,
+        2433,
+        2355,
+        3751,
+        2881,
+        3578,
+        3753
+      ],
+      "heldout_title": "Heartbreak Ridge (1986)",
+      "heldout_raw_id": 2476,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 3512,
+          "title": "Return to Me (2000)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 3755,
+          "title": "Perfect Storm, The (2000)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 3617,
+          "title": "Road Trip (2000)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2686,
+          "title": "Red Violin, The (Le Violon rouge) (1998)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3300,
+          "title": "Pitch Black (2000)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 2762,
+          "title": "Sixth Sense, The (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 2571,
+          "title": "Matrix, The (1999)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 2028,
+          "title": "Saving Private Ryan (1998)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 2571,
+          "title": "Matrix, The (1999)"
+        }
+      ]
+    },
+    {
+      "user_index": 5886,
+      "history_titles": [
+        "Mother (1996)",
+        "Swimming with Sharks (1995)",
+        "Big Lebowski, The (1998)",
+        "Midsummer Night's Dream, A (1999)",
+        "When the Cats Away (Chacun cherche son chat) (1996)",
+        "Nightmare Before Christmas, The (1993)",
+        "Beat the Devil (1954)",
+        "Midnight in the Garden of Good and Evil (1997)"
+      ],
+      "history_raw_ids": [
+        1414,
+        322,
+        1732,
+        2622,
+        1571,
+        551,
+        970,
+        1711
+      ],
+      "heldout_title": "While You Were Sleeping (1995)",
+      "heldout_raw_id": 339,
+      "hit_at_10": {
+        "sasrec": false,
+        "item_knn": false,
+        "popularity": false
+      },
+      "sequence_model": "Polarity-SASRec",
+      "sasrec": [
+        {
+          "rank": 1,
+          "movie_id": 2469,
+          "title": "Peggy Sue Got Married (1986)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 537,
+          "title": "Sirens (1994)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1057,
+          "title": "Everyone Says I Love You (1996)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1614,
+          "title": "In & Out (1997)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 3712,
+          "title": "Soapdish (1991)"
+        }
+      ],
+      "item_knn": [
+        {
+          "rank": 1,
+          "movie_id": 1394,
+          "title": "Raising Arizona (1987)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 1136,
+          "title": "Monty Python and the Holy Grail (1974)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1079,
+          "title": "Fish Called Wanda, A (1988)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 608,
+          "title": "Fargo (1996)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 296,
+          "title": "Pulp Fiction (1994)"
+        }
+      ],
+      "popularity": [
+        {
+          "rank": 1,
+          "movie_id": 2858,
+          "title": "American Beauty (1999)"
+        },
+        {
+          "rank": 2,
+          "movie_id": 260,
+          "title": "Star Wars: Episode IV - A New Hope (1977)"
+        },
+        {
+          "rank": 3,
+          "movie_id": 1196,
+          "title": "Star Wars: Episode V - The Empire Strikes Back (1980)"
+        },
+        {
+          "rank": 4,
+          "movie_id": 1198,
+          "title": "Raiders of the Lost Ark (1981)"
+        },
+        {
+          "rank": 5,
+          "movie_id": 593,
+          "title": "Silence of the Lambs, The (1991)"
+        }
+      ]
+    }
+  ]
+}

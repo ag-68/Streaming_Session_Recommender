@@ -1,0 +1,43 @@
+{
+  "note": "Protocol bridge: our Vanilla / Veto / Polarity-SASRec under paper sampled@100, plus paper-style train under our full-catalog exam.",
+  "paper_table_iii_reference": {
+    "ndcg@10": 0.5905,
+    "hr@10": 0.8245,
+    "note": "Published SASRec MovieLens-1M sampled@100 (Table III); approximate target, not bit-exact in our code."
+  },
+  "ours_under_paper_sampled": {
+    "experiment": "ours_under_paper_sampled",
+    "note": "Vanilla / Veto / Polarity-SASRec checkpoints scored with paper sampled ranking (true + 100 random). Same leave-one-out likes-only splits as our full-catalog runs.",
+    "n_negatives": 100,
+    "seed": 42,
+    "n_users": 6034,
+    "n_items": 3533,
+    "models": {
+      "vanilla": {
+        "label": "Vanilla-SASRec",
+        "ndcg@10": 0.5879,
+        "hr@10": 0.8121,
+        "full_catalog": { "ndcg@10": 0.1451, "hr@10": 0.2577 }
+      },
+      "veto": {
+        "label": "Veto-SASRec",
+        "ndcg@10": 0.6076,
+        "hr@10": 0.8252,
+        "full_catalog": { "ndcg@10": 0.1639, "hr@10": 0.2832 }
+      },
+      "signed_trail": {
+        "label": "Polarity-SASRec",
+        "ndcg@10": 0.6171,
+        "hr@10": 0.8253,
+        "full_catalog": { "ndcg@10": 0.1711, "hr@10": 0.2970 }
+      }
+    }
+  },
+  "paper_style_under_ours_full_catalog": {
+    "experiment": "paper_style_under_ours_full_catalog",
+    "label": "Paper-style (all ratings + 1-neg BCE)",
+    "note": "Approximate paper recipe in this codebase: all 1–5★ sequence events, 1-neg BCE training. Primary eval is our full-catalog Hit/NDCG@10; sampled@100 also reported. Not an official Table III reproduction.",
+    "full_catalog": { "ndcg@10": 0.1243, "hr@10": 0.2288 },
+    "sampled_100": { "ndcg@10": 0.5854, "hr@10": 0.8104 }
+  }
+}

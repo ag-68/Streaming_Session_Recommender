@@ -1,0 +1,67 @@
+[
+  {
+    "term": "SASRec",
+    "open_form": "Self-Attentive Sequential Recommendation",
+    "sentence": "A model that reads a viewer's liked films in order and scores the next film (Kang and McAuley, 2018). This project’s public title is Next-Movie Recommender: Rating-aware Self-Attention."
+  },
+  {
+    "term": "NDCG@10",
+    "open_form": "Normalized discounted cumulative gain at 10",
+    "sentence": "A score that is 1 when the hidden film is in position 1, smaller when it is lower in the top 10, and 0 when it is missing."
+  },
+  {
+    "term": "HR@10",
+    "open_form": "Hit rate at 10",
+    "sentence": "The share of viewers whose hidden film appears anywhere in the top 10."
+  },
+  {
+    "term": "Leave-one-out",
+    "open_form": "",
+    "sentence": "Hide each viewer's last liked film, then ask the method to guess it."
+  },
+  {
+    "term": "Causal mask",
+    "open_form": "",
+    "sentence": "A rule that position t may look only at positions up to t, so the model cannot see the answer it is predicting."
+  },
+  {
+    "term": "Embedding",
+    "open_form": "",
+    "sentence": "A learned list of numbers that stands for one film."
+  },
+  {
+    "term": "Cross-entropy",
+    "open_form": "",
+    "sentence": "A training penalty that is larger when the model is confidently wrong."
+  },
+  {
+    "term": "Cold start",
+    "open_form": "",
+    "sentence": "A viewer whose history is empty, or contains only films this catalog does not know."
+  },
+  {
+    "term": "Catalog coverage",
+    "open_form": "",
+    "sentence": "The share of films that appear in at least one viewer's top 10."
+  },
+  {
+    "term": "p50 / p95 / p99",
+    "open_form": "",
+    "sentence": "Response-time marks. p95 means 95% of requests finished in this time or less."
+  },
+  {
+    "term": "Full ranking",
+    "open_form": "",
+    "sentence": "The hidden film is ranked against every film the viewer has not already seen, not against a random sample of wrong films."
+  },
+  {
+    "term": "API",
+    "open_form": "Application programming interface",
+    "sentence": "The HTTP menu other programs use to ask for five films."
+  },
+  {
+    "term": "Data leakage",
+    "open_form": "",
+    "sentence": "The model learned information that would not have been available at the moment of the prediction."
+  }
+]

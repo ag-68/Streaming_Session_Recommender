@@ -1,0 +1,23 @@
+{
+  "max_len": 100,
+  "hidden_dim": 64,
+  "num_blocks": 2,
+  "num_heads": 1,
+  "dropout": 0.2,
+  "lr": 0.001,
+  "batch_size": 256,
+  "max_epochs": 100,
+  "patience": 10,
+  "item_knn_neighbors": 50,
+  "seed": 42,
+  "min_rating": 4,
+  "min_positives": 5,
+  "k": 10,
+  "model_version": "sasrec-ml1m-side-seed42",
+  "use_side_features": true,
+  "side_feature_groups": [
+    "genre",
+    "decade",
+    "popularity"
+  ]
+}

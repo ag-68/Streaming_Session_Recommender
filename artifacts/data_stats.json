@@ -1,0 +1,13 @@
+{
+  "raw_ratings": 1000209,
+  "raw_users": 6040,
+  "positive_ratings": 575272,
+  "users_before_min_filter": 6038,
+  "users_dropped": 4,
+  "users": 6034,
+  "items": 3533,
+  "min_rating": 4,
+  "min_positives": 5,
+  "users_with_hard_dislike": 5772,
+  "users_with_soft_dislike": 6024
+}
